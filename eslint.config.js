@@ -8,6 +8,7 @@ import react from "eslint-plugin-react";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import prettier from "eslint-plugin-prettier";
 import prettierConfig from "eslint-config-prettier";
+import tanstackQuery from "@tanstack/eslint-plugin-query";
 
 export default [
   {
@@ -35,6 +36,7 @@ export default [
       "@typescript-eslint": tseslint,
       "jsx-a11y": jsxA11y,
       prettier,
+      "@tanstack/query": tanstackQuery,
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -43,6 +45,7 @@ export default [
       ...reactHooks.configs.recommended.rules,
       ...tseslint.configs.recommended.rules,
       ...jsxA11y.configs.recommended.rules,
+      ...tanstackQuery.configs.recommended.rules,
       ...prettierConfig.rules, // Disable ESLint rules that conflict with Prettier
 
       // TypeScript specific rules

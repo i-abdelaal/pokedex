@@ -8,51 +8,149 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
+import { createFileRoute } from '@tanstack/react-router'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as pokemonPokemonListRouteRouteImport } from './routes/(pokemon)/_pokemon-list/route'
+import { Route as pokemonPokemonListIndexRouteImport } from './routes/(pokemon)/_pokemon-list/index'
+import { Route as pokemonPokemonDetailsIdRouteImport } from './routes/(pokemon)/pokemon-details.$id'
+import { Route as pokemonPokemonListInfiniteScrollRouteImport } from './routes/(pokemon)/_pokemon-list/infinite-scroll'
+
+const pokemonRouteImport = createFileRoute('/(pokemon)')()
+
+const pokemonRoute = pokemonRouteImport.update({
+  id: '/(pokemon)',
   getParentRoute: () => rootRouteImport,
 } as any)
+const pokemonPokemonListRouteRoute = pokemonPokemonListRouteRouteImport.update({
+  id: '/_pokemon-list',
+  getParentRoute: () => pokemonRoute,
+} as any)
+const pokemonPokemonListIndexRoute = pokemonPokemonListIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => pokemonPokemonListRouteRoute,
+} as any)
+const pokemonPokemonDetailsIdRoute = pokemonPokemonDetailsIdRouteImport.update({
+  id: '/pokemon-details/$id',
+  path: '/pokemon-details/$id',
+  getParentRoute: () => pokemonRoute,
+} as any)
+const pokemonPokemonListInfiniteScrollRoute =
+  pokemonPokemonListInfiniteScrollRouteImport.update({
+    id: '/infinite-scroll',
+    path: '/infinite-scroll',
+    getParentRoute: () => pokemonPokemonListRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '/': typeof pokemonPokemonListIndexRoute
+  '/infinite-scroll': typeof pokemonPokemonListInfiniteScrollRoute
+  '/pokemon-details/$id': typeof pokemonPokemonDetailsIdRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/infinite-scroll': typeof pokemonPokemonListInfiniteScrollRoute
+  '/pokemon-details/$id': typeof pokemonPokemonDetailsIdRoute
+  '/': typeof pokemonPokemonListIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
+  '/(pokemon)': typeof pokemonRouteWithChildren
+  '/(pokemon)/_pokemon-list': typeof pokemonPokemonListRouteRouteWithChildren
+  '/(pokemon)/_pokemon-list/infinite-scroll': typeof pokemonPokemonListInfiniteScrollRoute
+  '/(pokemon)/pokemon-details/$id': typeof pokemonPokemonDetailsIdRoute
+  '/(pokemon)/_pokemon-list/': typeof pokemonPokemonListIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/infinite-scroll' | '/pokemon-details/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/infinite-scroll' | '/pokemon-details/$id' | '/'
+  id:
+    | '__root__'
+    | '/(pokemon)'
+    | '/(pokemon)/_pokemon-list'
+    | '/(pokemon)/_pokemon-list/infinite-scroll'
+    | '/(pokemon)/pokemon-details/$id'
+    | '/(pokemon)/_pokemon-list/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  pokemonRoute: typeof pokemonRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/(pokemon)': {
+      id: '/(pokemon)'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof pokemonRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/(pokemon)/_pokemon-list': {
+      id: '/(pokemon)/_pokemon-list'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof pokemonPokemonListRouteRouteImport
+      parentRoute: typeof pokemonRoute
+    }
+    '/(pokemon)/_pokemon-list/': {
+      id: '/(pokemon)/_pokemon-list/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof pokemonPokemonListIndexRouteImport
+      parentRoute: typeof pokemonPokemonListRouteRoute
+    }
+    '/(pokemon)/pokemon-details/$id': {
+      id: '/(pokemon)/pokemon-details/$id'
+      path: '/pokemon-details/$id'
+      fullPath: '/pokemon-details/$id'
+      preLoaderRoute: typeof pokemonPokemonDetailsIdRouteImport
+      parentRoute: typeof pokemonRoute
+    }
+    '/(pokemon)/_pokemon-list/infinite-scroll': {
+      id: '/(pokemon)/_pokemon-list/infinite-scroll'
+      path: '/infinite-scroll'
+      fullPath: '/infinite-scroll'
+      preLoaderRoute: typeof pokemonPokemonListInfiniteScrollRouteImport
+      parentRoute: typeof pokemonPokemonListRouteRoute
     }
   }
 }
 
+interface pokemonPokemonListRouteRouteChildren {
+  pokemonPokemonListInfiniteScrollRoute: typeof pokemonPokemonListInfiniteScrollRoute
+  pokemonPokemonListIndexRoute: typeof pokemonPokemonListIndexRoute
+}
+
+const pokemonPokemonListRouteRouteChildren: pokemonPokemonListRouteRouteChildren =
+  {
+    pokemonPokemonListInfiniteScrollRoute:
+      pokemonPokemonListInfiniteScrollRoute,
+    pokemonPokemonListIndexRoute: pokemonPokemonListIndexRoute,
+  }
+
+const pokemonPokemonListRouteRouteWithChildren =
+  pokemonPokemonListRouteRoute._addFileChildren(
+    pokemonPokemonListRouteRouteChildren,
+  )
+
+interface pokemonRouteChildren {
+  pokemonPokemonListRouteRoute: typeof pokemonPokemonListRouteRouteWithChildren
+  pokemonPokemonDetailsIdRoute: typeof pokemonPokemonDetailsIdRoute
+}
+
+const pokemonRouteChildren: pokemonRouteChildren = {
+  pokemonPokemonListRouteRoute: pokemonPokemonListRouteRouteWithChildren,
+  pokemonPokemonDetailsIdRoute: pokemonPokemonDetailsIdRoute,
+}
+
+const pokemonRouteWithChildren =
+  pokemonRoute._addFileChildren(pokemonRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  pokemonRoute: pokemonRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
