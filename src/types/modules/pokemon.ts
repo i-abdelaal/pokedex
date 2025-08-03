@@ -67,6 +67,11 @@ export type PokemonListItem = {
   spriteUrl: string;
 };
 
+export type PokemonInfiniteScrollResponse = {
+  count: number;
+  data: PokemonListItem[][];
+};
+
 export type PokemonList = {
   count: number;
   next: string | null;
@@ -81,4 +86,8 @@ export type PokemonListInfiniteScrollOptions = {
 
 export type PokemonListPaginationOptions = {
   pageNumber: number;
+};
+
+export type PokemonListItemCardProps = {
+  pokemon: PokemonListItem;
 };

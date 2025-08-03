@@ -12,7 +12,7 @@ function PokemonListLayout() {
   const inActiveLinkClassName = "bg-white text-black hover:bg-gray-200";
   const activeLinkClassName = "!bg-black text-white hover:bg-gray-700";
   return (
-    <div className={clsx(isInfiniteScroll ? "bg-gradient-to-tl from-emerald-100 to-emerald-50" : "bg-gradient-to-tl from-blue-100 to-blue-50", "h-screen")}>
+    <div className={clsx(isInfiniteScroll ? "bg-gradient-to-tl from-emerald-100 to-emerald-50" : "bg-gradient-to-tl from-blue-100 to-blue-50", "min-h-screen p-4")}>
       <div className="w-full bg-app-background-mint flex items-start justify-center">
         <h1 className="text-4xl font-app font-bold text-app-text-primary mb-4">⚡Pokédex</h1>
       </div>
@@ -25,7 +25,9 @@ function PokemonListLayout() {
           Infinite Scroll
         </Link>
       </div>
-      <Outlet />
+      <div className="w-[80dvw] mx-auto">
+        <Outlet />
+      </div>
     </div>
   );
 }

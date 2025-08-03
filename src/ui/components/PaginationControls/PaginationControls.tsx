@@ -46,9 +46,7 @@ export const PaginationControls = ({ totalPageCount, currentPage, hasNext, hasPr
 
   return (
     <div className="flex flex-col items-center space-y-4">
-      {/* Pagination buttons */}
       <div className="flex items-center space-x-1">
-        {/* Previous button */}
         <Button
           variant="outlined"
           color="primary"
@@ -63,36 +61,46 @@ export const PaginationControls = ({ totalPageCount, currentPage, hasNext, hasPr
             <p>Previous</p>
           </span>
         </Button>
+        <Button
+          variant="primary"
+          color="primary"
+          size="small"
+          className="min-w-[40px] h-[40px] rounded-md sm:hidden"
+          onClick={() => onPageChange && onPageChange(currentPage)}
+          onMouseEnter={() => onPageHover && onPageHover(currentPage)}
+        >
+          {currentPage}
+        </Button>
 
-        {/* Page numbers */}
-        {pageNumbers.map((page, index) => {
-          if (page === "...") {
+        <div className="hidden sm:flex items-center space-x-1">
+          {pageNumbers.map((page, index) => {
+            if (page === "...") {
+              return (
+                <span key={`ellipsis-${index}`} className="px-2 py-2 text-gray-500">
+                  ...
+                </span>
+              );
+            }
+
+            const pageNum = page as number;
+            const isCurrentPage = pageNum === currentPage;
+
             return (
-              <span key={`ellipsis-${index}`} className="px-2 py-2 text-gray-500">
-                ...
-              </span>
+              <Button
+                key={pageNum}
+                variant={isCurrentPage ? "primary" : "outlined"}
+                color="primary"
+                size="small"
+                onClick={() => !isCurrentPage && onPageChange && onPageChange(pageNum)}
+                onMouseEnter={() => !isCurrentPage && onPageHover && onPageHover(pageNum)}
+                className="min-w-[40px] h-[40px] rounded-md"
+              >
+                {pageNum}
+              </Button>
             );
-          }
+          })}
+        </div>
 
-          const pageNum = page as number;
-          const isCurrentPage = pageNum === currentPage;
-
-          return (
-            <Button
-              key={pageNum}
-              variant={isCurrentPage ? "primary" : "outlined"}
-              color="primary"
-              size="small"
-              onClick={() => onPageChange && onPageChange(pageNum)}
-              onMouseEnter={() => onPageHover && onPageHover(pageNum)}
-              className="min-w-[40px] h-[40px] rounded-md"
-            >
-              {pageNum}
-            </Button>
-          );
-        })}
-
-        {/* Next button */}
         <Button
           variant="outlined"
           color="primary"
@@ -108,10 +116,9 @@ export const PaginationControls = ({ totalPageCount, currentPage, hasNext, hasPr
         </Button>
       </div>
 
-      {/* Page info */}
       <div className="text-sm text-gray-600">
         Page {currentPage} of {totalPageCount}
-        {itemsPerPage && <span className="ml-1">({itemsPerPage} Pokemon shown)</span>}
+        {itemsPerPage && <span className="ml-1">({itemsPerPage})</span>}
       </div>
     </div>
   );

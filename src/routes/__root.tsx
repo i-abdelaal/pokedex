@@ -7,7 +7,7 @@ export const Route = createRootRoute({
 
 function MainLayout() {
   return (
-    <div className="container mx-auto min-h-screen">
+    <div className="min-h-screen min-w-[375px]">
       <Outlet />
       {import.meta.env.DEV && <TanStackRouterDevtools />}
     </div>

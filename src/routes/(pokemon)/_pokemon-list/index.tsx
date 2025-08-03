@@ -1,11 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { PaginatedListPage } from "../../../pages/pokemon/PaginatedListPage";
 
 export const Route = createFileRoute("/(pokemon)/_pokemon-list/")({
-  component: PokemonListWithPaginationControls,
+  component: PaginatedListPage,
   pendingComponent: () => <div>Loading...</div>,
   errorComponent: () => <div>Error loading Pokemon list</div>,
 });
-
-function PokemonListWithPaginationControls() {
-  return <div>PokemonListWithPaginationControls</div>;
-}
