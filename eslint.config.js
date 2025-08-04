@@ -58,6 +58,8 @@ export default [
       "react/react-in-jsx-scope": "off",
       "react/prop-types": "off",
       "react-refresh/only-export-components": ["warn", { allowConstantExport: true }],
+      "react/display-name": "off",
+      "react-refresh/only-export-components": "off",
 
       // General rules
       "no-console": "warn",

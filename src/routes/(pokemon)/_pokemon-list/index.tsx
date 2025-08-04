@@ -3,6 +3,8 @@ import { PaginatedListPage } from "../../../pages/pokemon/PaginatedListPage";
 import { pokemonListQueryOptions } from "../../../modules/pokemon/queries/queryOptions/pokemonListQueryOptions";
 import { PokemonListPaginationDefaultValues } from "../../../modules/pokemon/constants";
 import { queryClient } from "../../../utils/queryClient";
+import { QueryErrorPage } from "../../../pages/pokemon/QueryErrorPage";
+import { ListPageLoader } from "../../../modules/pokemon/ui/components/loaders/ListPageLoader";
 
 export const Route = createFileRoute("/(pokemon)/_pokemon-list/")({
   validateSearch: search => {
@@ -21,6 +23,6 @@ export const Route = createFileRoute("/(pokemon)/_pokemon-list/")({
     );
   },
   component: PaginatedListPage,
-  pendingComponent: () => <div>Loading...</div>,
-  errorComponent: () => <div>Error loading Pokemon list</div>,
+  pendingComponent: ListPageLoader,
+  errorComponent: () => <QueryErrorPage queryOptions={pokemonListQueryOptions({ pageNumber: PokemonListPaginationDefaultValues.PAGE_NUMBER })} errorMessage="Failed to load Pokemon list" />,
 });

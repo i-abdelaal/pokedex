@@ -1,3 +1,4 @@
+import { PokemonListPaginationDefaultValues } from "../../../modules/pokemon/constants";
 import { createFileRoute, Link, Outlet, useLocation } from "@tanstack/react-router";
 import clsx from "clsx";
 
@@ -18,7 +19,7 @@ function PokemonListLayout() {
       </div>
       <p className="text-center my-4">{`Discover and explore Pokemon with ${isInfiniteScroll ? "infinite scroll" : "page controls"}`}</p>
       <div className="flex gap-4 justify-center items-center">
-        <Link className={clsx(basicClassName, inActiveLinkClassName)} activeProps={{ className: activeLinkClassName }} to="/">
+        <Link className={clsx(basicClassName, inActiveLinkClassName)} activeProps={{ className: activeLinkClassName }} to="/" search={{ page: PokemonListPaginationDefaultValues.PAGE_NUMBER }}>
           Page Controls
         </Link>
         <Link className={clsx(basicClassName, inActiveLinkClassName)} activeProps={{ className: activeLinkClassName }} to="/infinite-scroll">
