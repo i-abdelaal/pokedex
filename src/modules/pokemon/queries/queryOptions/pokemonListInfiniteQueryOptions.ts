@@ -2,7 +2,7 @@ import { infiniteQueryOptions } from "@tanstack/react-query";
 import { fetchPokemonListRequest } from "../requests/fetchPokemonListRequest";
 import { extractNextPageOffset } from "../../utils/formats";
 import { extractPokemonId } from "../../utils/formats";
-import { chunkArray } from "../../utils/arrays";
+import { chunkArray } from "../../utils/formats";
 import { POKEMON_ENDPOINTS } from "../../../../api/pokemonEndPoints";
 import type { PokemonInfiniteScrollResponse, PokemonListItem, PokemonListResponse } from "../../../../types/modules/pokemon";
 import { PokemonListPaginationDefaultValues } from "../../constants";

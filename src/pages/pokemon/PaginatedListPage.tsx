@@ -1,32 +1,51 @@
+import { getRouteApi } from "@tanstack/react-router";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { pokemonListQueryOptions } from "../../modules/pokemon/queries/queryOptions/pokemonListQueryOptions";
+import { PokemonListPaginationDefaultValues } from "../../modules/pokemon/constants";
+import { queryClient } from "../../utils/queryClient";
 import { PokemonGridView } from "../../modules/pokemon/ui/views/PokemonGridView";
 import { PaginationControls } from "../../ui/components/PaginationControls";
-const mockPokemonData = [
-  { id: 1, name: "bulbasaur", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" },
-  { id: 2, name: "ivysaur", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprits/pokemon/other/official-artwork/2.png" },
-  { id: 3, name: "venusaur", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png" },
-  { id: 4, name: "charmander", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" },
-  { id: 5, name: "charmeleon", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png" },
-  { id: 6, name: "charizard", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png" },
-  { id: 7, name: "squirtle", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png" },
-  { id: 8, name: "wartortle", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/8.png" },
-  { id: 9, name: "blastoise", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/9.png" },
-  { id: 10, name: "caterpie", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10.png" },
-  { id: 11, name: "metapod", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/11.png" },
-  { id: 12, name: "butterfree", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/12.png" },
-  { id: 13, name: "weedle", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/13.png" },
-  { id: 14, name: "kakuna", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/14.png" },
-  { id: 15, name: "beedrill", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/15.png" },
-  { id: 16, name: "pidgey", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/16.png" },
-  { id: 17, name: "pidgeotto", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/17.png" },
-  { id: 18, name: "pidgeot", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/18.png" },
-  { id: 19, name: "rattata", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/19.png" },
-  { id: 20, name: "raticate", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/20.png" },
-];
+
 export const PaginatedListPage = () => {
+  const routeApi = getRouteApi("/(pokemon)/_pokemon-list/");
+  const search = routeApi.useSearch();
+  const navigate = routeApi.useNavigate();
+
+  const { data: pokemonListData } = useSuspenseQuery(
+    pokemonListQueryOptions({
+      pageNumber: !isNaN(Number(search.page)) && Number(search.page) > 0 ? Number(search.page) : PokemonListPaginationDefaultValues.PAGE_NUMBER,
+    })
+  );
+
+  const pageCount = Math.ceil((pokemonListData?.count || 0) / PokemonListPaginationDefaultValues.LIMIT);
+
+  const currentPage = search.page ? Number(search.page) : PokemonListPaginationDefaultValues.PAGE_NUMBER;
+
+  const handlePageChange = (page: number) => {
+    navigate({
+      search: { page },
+    });
+  };
+
+  const handlePageHover = (page: number) => {
+    queryClient.prefetchQuery(
+      pokemonListQueryOptions({
+        pageNumber: page,
+      })
+    );
+  };
   return (
     <>
-      <PokemonGridView pokemons={mockPokemonData} />
-      <PaginationControls totalPageCount={10} currentPage={1} hasNext={true} hasPrevious={true} onPageChange={() => {}} onPageHover={() => {}} itemsPerPage="20 Pokemons shown" />
+      <PokemonGridView pokemons={pokemonListData?.data || []} />
+      <PaginationControls
+        currentPage={currentPage}
+        totalPageCount={pageCount}
+        hasNext={Boolean(pokemonListData.next)}
+        hasPrevious={Boolean(pokemonListData.previous)}
+        onPageChange={handlePageChange}
+        onPageHover={handlePageHover}
+        itemsPerPage={`${pokemonListData?.data.length || 0} Pokemons shown`}
+      />
     </>
   );
 };

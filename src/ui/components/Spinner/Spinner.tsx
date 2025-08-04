@@ -12,5 +12,5 @@ const sizeClasses = {
 };
 
 export const Spinner = ({ size = "md" }: SpinnerProps) => {
-  return <div className={clsx("inline-block bg-white rounded-full border-gray-300 border-t-blue-600 animate-spin", sizeClasses[size])} />;
+  return <div className={clsx("inline-block rounded-full border-gray-300 border-t-blue-600 border-r-blue-600 border-b-blue-600 animate-spin", sizeClasses[size])} />;
 };
