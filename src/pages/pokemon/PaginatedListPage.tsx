@@ -2,7 +2,7 @@ import { PokemonGridView } from "../../modules/pokemon/ui/views/PokemonGridView"
 import { PaginationControls } from "../../ui/components/PaginationControls";
 const mockPokemonData = [
   { id: 1, name: "bulbasaur", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" },
-  { id: 2, name: "ivysaur", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png" },
+  { id: 2, name: "ivysaur", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprits/pokemon/other/official-artwork/2.png" },
   { id: 3, name: "venusaur", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png" },
   { id: 4, name: "charmander", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" },
   { id: 5, name: "charmeleon", spriteUrl: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png" },

@@ -91,3 +91,7 @@ export type PokemonListPaginationOptions = {
 export type PokemonListItemCardProps = {
   pokemon: PokemonListItem;
 };
+
+export type PokemonCardProps = {
+  pokemon: PokemonDetails;
+};

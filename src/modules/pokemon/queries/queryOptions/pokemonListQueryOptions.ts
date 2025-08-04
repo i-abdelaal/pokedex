@@ -1,6 +1,6 @@
 import { queryOptions, type UseQueryOptions } from "@tanstack/react-query";
 import { fetchPokemonListRequest } from "../requests/fetchPokemonListRequest";
-import { extractPokemonId } from "../../utils/strings";
+import { extractPokemonId } from "../../utils/formats";
 import type { PokemonListItem, PokemonListPaginationOptions, PokemonListResponse } from "../../../../types/modules/pokemon";
 import { POKEMON_ENDPOINTS } from "../../../../api/pokemonEndPoints";
 import { PokemonListPaginationDefaultValues } from "../../constants";

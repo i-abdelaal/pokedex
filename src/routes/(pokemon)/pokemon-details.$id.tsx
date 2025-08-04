@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { PokemonDetailsPage } from "../../pages/pokemon/PokemonDetailsPage";
 
 export const Route = createFileRoute("/(pokemon)/pokemon-details/$id")({
-  component: PokemonDetails,
+  component: PokemonDetailsPage,
   pendingComponent: () => <div>Loading...</div>,
   errorComponent: () => <div>Error loading Pokemon details</div>,
   notFoundComponent: () => {
@@ -12,7 +13,3 @@ export const Route = createFileRoute("/(pokemon)/pokemon-details/$id")({
     );
   },
 });
-
-function PokemonDetails() {
-  return <div>PokemonDetails</div>;
-}

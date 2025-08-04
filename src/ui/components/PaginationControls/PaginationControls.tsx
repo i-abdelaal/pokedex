@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { Button } from "../Button";
 
 export type PaginationControlsProps = {
@@ -11,6 +12,9 @@ export type PaginationControlsProps = {
 };
 
 export const PaginationControls = ({ totalPageCount, currentPage, hasNext, hasPrevious, onPageChange, onPageHover, itemsPerPage }: PaginationControlsProps) => {
+  const basicControlStyle = "rounded-md border-none mx-1 text-sm font-bold";
+  const inActiveControlStyle = "bg-white text-black";
+  const activeControlStyle = "bg-black text-white";
   // Generate page numbers to display
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
@@ -54,9 +58,9 @@ export const PaginationControls = ({ totalPageCount, currentPage, hasNext, hasPr
           onClick={() => onPageChange && onPageChange(currentPage - 1)}
           onMouseEnter={() => onPageHover && onPageHover(currentPage - 1)}
           disabled={!totalPageCount || currentPage === 1 || !hasPrevious}
-          className="h-[40px] rounded-md"
+          className={clsx(basicControlStyle, inActiveControlStyle)}
         >
-          <span className="text-sm flex items-center gap-2">
+          <span className="text-sm flex justify-center items-center gap-2">
             <span className="icon-chevron-left" />
             <p>Previous</p>
           </span>
@@ -65,7 +69,7 @@ export const PaginationControls = ({ totalPageCount, currentPage, hasNext, hasPr
           variant="primary"
           color="primary"
           size="small"
-          className="min-w-[40px] h-[40px] rounded-md sm:hidden"
+          className={clsx(basicControlStyle, inActiveControlStyle, "sm:hidden")}
           onClick={() => onPageChange && onPageChange(currentPage)}
           onMouseEnter={() => onPageHover && onPageHover(currentPage)}
         >
@@ -93,7 +97,7 @@ export const PaginationControls = ({ totalPageCount, currentPage, hasNext, hasPr
                 size="small"
                 onClick={() => !isCurrentPage && onPageChange && onPageChange(pageNum)}
                 onMouseEnter={() => !isCurrentPage && onPageHover && onPageHover(pageNum)}
-                className="min-w-[40px] h-[40px] rounded-md"
+                className={clsx(basicControlStyle, isCurrentPage ? activeControlStyle : inActiveControlStyle)}
               >
                 {pageNum}
               </Button>
@@ -108,9 +112,9 @@ export const PaginationControls = ({ totalPageCount, currentPage, hasNext, hasPr
           onClick={() => onPageChange && onPageChange(currentPage + 1)}
           onMouseEnter={() => onPageHover && onPageHover(currentPage + 1)}
           disabled={!totalPageCount || currentPage === totalPageCount || !hasNext}
-          className="h-[40px] rounded-md"
+          className={clsx(basicControlStyle, inActiveControlStyle)}
         >
-          <span className="text-sm flex items-center gap-2">
+          <span className=" flex justify-center items-center gap-2">
             <p>Next</p> <span className="icon-chevron-right" />
           </span>
         </Button>
